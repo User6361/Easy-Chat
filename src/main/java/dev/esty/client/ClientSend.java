@@ -12,6 +12,7 @@ public class ClientSend extends Thread{
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
 
+
         //подключаемся к серверу
         try(Socket socket = new Socket("147.45.141.37", 10000)){
             System.out.println("You are connected to the server!");
@@ -67,6 +68,7 @@ public class ClientSend extends Thread{
                     break;
                     //e.printStackTrace();
                 }
+
                 socket.close();
             }
             
