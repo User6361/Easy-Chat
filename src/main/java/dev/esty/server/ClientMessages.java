@@ -3,9 +3,9 @@ package dev.esty.server;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 import static dev.esty.server.Main.getTime;
+import static dev.esty.server.Main.stop;
 
 
 public class ClientMessages {
@@ -25,16 +25,13 @@ public class ClientMessages {
                 try {
                     String entryFromUser = in.readUTF();
                     System.out.println(getTime() + "$[" + NickNameUser + "]: " + entryFromUser);
-
-
-
                 } catch (EOFException | SocketException e) {
-                    System.out.println(getTime() + "Client " + NickNameUser + " disconnecting...");
+                    //System.out.println(getTime() + "Client " + NickNameUser + " disconnecting...");
                     break;
                 }
             }
-            in.close();
-            client.close();
+            System.out.println(getTime() + "Client " + NickNameUser + " disconnecting...");
+            stop();
             System.out.println(getTime() + "Client " + NickNameUser + " is disconnected!");
 
         } catch (IOException e) {

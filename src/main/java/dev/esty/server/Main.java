@@ -9,17 +9,17 @@ import java.time.format.DateTimeFormatter;
 public class Main {
 
 
-    private ServerSocket server;
-    private static Socket client;
-
+    private static ServerSocket server;
+    private static final Socket client = null;
+    //get for input information
     public static String getTime(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:HH:mm:ss");
         String formattedNow = now.format(formatter);
         return "[" + formattedNow + "] ";
     }
-
-    public void start(int socket) {
+    //start server
+    public static void start(int socket) {
         try{
             server = new ServerSocket(socket);
 
@@ -27,8 +27,8 @@ public class Main {
             e.printStackTrace();
         }
     }
-
-    public void stop() {
+    //close connection to client
+    public static void stop() {
         try(DataOutputStream out = new DataOutputStream(client.getOutputStream());
             DataInputStream in = new DataInputStream(client.getInputStream());){
             in.close();
@@ -40,9 +40,19 @@ public class Main {
 
     }
 
-    public void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
+        start(10000);
+        System.out.println("Server started in port 10000");
+        ClientHandler ch = new ClientHandler(client);
+        ch.handleClient();
+    }
+}
 
-        /*try (ServerSocket server = new ServerSocket(10000)) {
+
+
+
+
+/*try (ServerSocket server = new ServerSocket(10000)) {
 
             System.out.println(getTime() + "Server started listening on port 10000");
 
@@ -56,10 +66,3 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        start(10000);
-        System.out.println("Server started in port 10000");
-        ClientHandler ch = new ClientHandler(client);
-        ch.handleClient();
-        stop();
-    }
-}

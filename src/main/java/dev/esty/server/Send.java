@@ -9,7 +9,7 @@ public class Send {
         this.entryFromUser = entryFromUser;
     }
     public void sendMessages(){
-        try()
+
     }
 
 
