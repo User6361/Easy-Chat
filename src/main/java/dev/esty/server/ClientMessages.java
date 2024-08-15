@@ -4,12 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
-import static dev.esty.server.Main.getTime;
-import static dev.esty.server.Main.stop;
-
-
-public class ClientMessages {
-    private final Socket client;
+public class ClientMessages extends Main{
+    private Socket client;
     private final String NickNameUser;
 
 
@@ -19,24 +15,23 @@ public class ClientMessages {
     }
 
     public void handleMessage() {
-        try (DataInputStream in = new DataInputStream(client.getInputStream())){
 
+        try (DataInputStream in = new DataInputStream(client.getInputStream())) {
             while (!client.isClosed()) {
                 try {
                     String entryFromUser = in.readUTF();
-                    System.out.println(getTime() + "$[" + NickNameUser + "]: " + entryFromUser);
+                    toString("["+NickNameUser + "]: " + entryFromUser);
                 } catch (EOFException | SocketException e) {
-                    //System.out.println(getTime() + "Client " + NickNameUser + " disconnecting...");
+                    toString("Client " + NickNameUser + " disconnecting...");
                     break;
                 }
             }
-            System.out.println(getTime() + "Client " + NickNameUser + " disconnecting...");
-            stop();
-            System.out.println(getTime() + "Client " + NickNameUser + " is disconnected!");
-
+            in.close();
+            client.close();
+            toString("Client " + NickNameUser + " disconnected");
         } catch (IOException e) {
-            throw new RuntimeException(e);
-
+            toString("Client " + NickNameUser + " disconnected uneceptably!");
         }
+
     }
 }

@@ -1,68 +1,34 @@
 package dev.esty.server;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Main {
 
 
-    private static ServerSocket server;
-    private static final Socket client = null;
-    //get for input information
-    public static String getTime(){
+public class Main extends Object{
+
+    private static Socket client;
+
+    public static void toString(String entry){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:HH:mm:ss");
         String formattedNow = now.format(formatter);
-        return "[" + formattedNow + "] ";
-    }
-    //start server
-    public static void start(int socket) {
-        try{
-            server = new ServerSocket(socket);
+        System.out.println(formattedNow + " " + entry);
 
+    }
+    public static void main(String[] args){
+        try(ServerSocket socket = new ServerSocket(10000)){
+            toString("Server started in port 10000");
+            while (true){
+                client = socket.accept();
+                ClientHandler ch = new ClientHandler(client);
+                ch.handleClient();
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
     }
-    //close connection to client
-    public static void stop() {
-        try(DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            DataInputStream in = new DataInputStream(client.getInputStream());){
-            in.close();
-            out.close();
-            client.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    public static void main(String[] args) throws IOException {
-        start(10000);
-        System.out.println("Server started in port 10000");
-        ClientHandler ch = new ClientHandler(client);
-        ch.handleClient();
-    }
 }
-
-
-
-
-
-/*try (ServerSocket server = new ServerSocket(10000)) {
-
-            System.out.println(getTime() + "Server started listening on port 10000");
-
-
-            while (true) {
-                client = server.accept();
-                ClientHandler handler = new ClientHandler(client);
-                handler.handleClient();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
