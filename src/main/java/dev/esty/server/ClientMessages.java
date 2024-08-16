@@ -20,17 +20,17 @@ public class ClientMessages extends Main{
             while (!client.isClosed()) {
                 try {
                     String entryFromUser = in.readUTF();
-                    toString("["+NickNameUser + "]: " + entryFromUser);
+                    print("[" + NickNameUser + "]: " + entryFromUser);
                 } catch (EOFException | SocketException e) {
-                    toString("Client " + NickNameUser + " disconnecting...");
+                    print("Client " + NickNameUser + " disconnecting...");
                     break;
                 }
             }
             in.close();
             client.close();
-            toString("Client " + NickNameUser + " disconnected");
-        } catch (IOException e) {
-            toString("Client " + NickNameUser + " disconnected uneceptably!");
+            print("Client " + NickNameUser + " disconnected");
+        } catch (IOException e){
+            print("Client " + NickNameUser + " disconnected uneceptably!");
         }
 
     }

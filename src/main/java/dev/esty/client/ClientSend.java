@@ -18,7 +18,7 @@ public class ClientSend{
                 System.out.print(nickName + ": ");
                 String entryUser = br.readLine();
                 out.writeUTF(entryUser);
-                if (entryUser.equals("exit")){
+                if (entryUser.equals("/exit")){
                     System.out.println("Disconnected from server");
                     break;
                 }
